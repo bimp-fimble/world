@@ -316,7 +316,7 @@ static void D4CGeneralBody(const double *x, int x_length, int fs,
 }
 
 static void InitializeAperiodicity(int f0_length, int fft_size,
-    double **aperiodicity) {
+    double *const *aperiodicity) {
   for (int i = 0; i < f0_length; ++i)
     for (int j = 0; j < fft_size / 2 + 1; ++j)
       aperiodicity[i][j] = 1.0 - world::kMySafeGuardMinimum;
@@ -336,7 +336,7 @@ static void GetAperiodicity(const double *coarse_frequency_axis,
 
 void D4C(const double *x, int x_length, int fs,
     const double *temporal_positions, const double *f0, int f0_length,
-    int fft_size, const D4COption *option, double **aperiodicity) {
+    int fft_size, const D4COption *option, double *const *aperiodicity) {
   randn_reseed();
 
   InitializeAperiodicity(f0_length, fft_size, aperiodicity);

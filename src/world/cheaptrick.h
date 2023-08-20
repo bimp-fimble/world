@@ -37,7 +37,7 @@ typedef struct {
 //-----------------------------------------------------------------------------
 void CheapTrick(const double *x, int x_length, int fs,
     const double *temporal_positions, const double *f0, int f0_length,
-    const CheapTrickOption *option, double **spectrogram);
+    const CheapTrickOption *option, double *const *spectrogram);
 
 //-----------------------------------------------------------------------------
 // InitializeCheapTrickOption allocates the memory to the struct and sets the

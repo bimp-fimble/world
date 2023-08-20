@@ -199,7 +199,7 @@ double GetF0FloorForCheapTrick(int fs, int fft_size) {
 
 void CheapTrick(const double *x, int x_length, int fs,
     const double *temporal_positions, const double *f0, int f0_length,
-    const CheapTrickOption *option, double **spectrogram) {
+    const CheapTrickOption *option, double *const *spectrogram) {
   int fft_size = option->fft_size;
 
   randn_reseed();
