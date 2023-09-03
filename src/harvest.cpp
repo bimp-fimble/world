@@ -1144,8 +1144,7 @@ static int HarvestGeneralBodySub(const double *boundary_f0_list,
 //-----------------------------------------------------------------------------
 static void HarvestGeneralBody(const double *x, int x_length, int fs,
     int frame_period, double f0_floor, double f0_ceil,
-    double channels_in_octave, int speed, double *temporal_positions,
-    double *f0) {
+    double channels_in_octave, int speed, double *f0) {
   double adjusted_f0_floor = f0_floor * 0.9;
   double adjusted_f0_ceil = f0_ceil * 1.1;
   int number_of_channels =
@@ -1171,6 +1170,7 @@ static void HarvestGeneralBody(const double *x, int x_length, int fs,
       decimation_ratio, y, y_spectrum);
 
   int f0_length = GetSamplesForHarvest(fs, x_length, frame_period);
+  double* temporal_positions = new double[f0_length];
   for (int i = 0; i < f0_length; ++i) {
     temporal_positions[i] = i * frame_period / 1000.0;
     f0[i] = 0.0;
@@ -1221,7 +1221,7 @@ int GetSamplesForHarvest(int fs, int x_length, double frame_period) {
 }
 
 void Harvest(const double *x, int x_length, int fs,
-    const HarvestOption *option, double *temporal_positions, double *f0) {
+    const HarvestOption *option, double *f0) {
   // Several parameters will be controllable for debug.
   double target_fs = 8000.0;
   int dimension_ratio = matlab_round(fs / target_fs);
@@ -1230,7 +1230,7 @@ void Harvest(const double *x, int x_length, int fs,
   if (option->frame_period == 1.0) {
     HarvestGeneralBody(x, x_length, fs, 1, option->f0_floor,
         option->f0_ceil, channels_in_octave, dimension_ratio,
-        temporal_positions, f0);
+        f0);
     return;
   }
 
@@ -1241,13 +1241,12 @@ void Harvest(const double *x, int x_length, int fs,
   double *basic_temporal_positions = new double[basic_f0_length];
   HarvestGeneralBody(x, x_length, fs, basic_frame_period, option->f0_floor,
       option->f0_ceil, channels_in_octave, dimension_ratio,
-      basic_temporal_positions, basic_f0);
+      basic_f0);
 
   int f0_length = GetSamplesForHarvest(fs, x_length, option->frame_period);
   for (int i = 0; i < f0_length; ++i) {
-    temporal_positions[i] = i * option->frame_period / 1000.0;
     f0[i] = basic_f0[MyMinInt(basic_f0_length - 1,
-      matlab_round(temporal_positions[i] * 1000.0))];
+      matlab_round(i * option->frame_period))];
   }
 
   delete[] basic_f0;

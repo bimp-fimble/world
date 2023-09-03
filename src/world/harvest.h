@@ -33,7 +33,7 @@ typedef struct {
 //   f0                   : F0 contour.
 //-----------------------------------------------------------------------------
 void Harvest(const double *x, int x_length, int fs,
-  const HarvestOption *option, double *temporal_positions, double *f0);
+  const HarvestOption *option, double *f0);
 
 //-----------------------------------------------------------------------------
 // InitializeHarvestOption allocates the memory to the struct and sets the

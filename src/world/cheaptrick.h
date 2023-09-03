@@ -27,16 +27,16 @@ typedef struct {
 //   x                  : Input signal
 //   x_length           : Length of x
 //   fs                 : Sampling frequency
-//   temporal_positions : Time axis
 //   f0                 : F0 contour
 //   f0_length          : Length of F0 contour
+//   frame_period       : Temporal period used for the analysis
 //   option             : Struct to order the parameter for CheapTrick
 //
 // Output:
 //   spectrogram        : Spectrogram estimated by CheapTrick.
 //-----------------------------------------------------------------------------
 void CheapTrick(const double *x, int x_length, int fs,
-    const double *temporal_positions, const double *f0, int f0_length,
+    const double *f0, int f0_length, double frame_period,
     const CheapTrickOption *option, double *const *spectrogram);
 
 //-----------------------------------------------------------------------------

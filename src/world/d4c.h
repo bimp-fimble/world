@@ -24,16 +24,17 @@ typedef struct {
 //   x                  : Input signal
 //   x_length           : Length of x
 //   fs                 : Sampling frequency
-//   temporal_positions : Time axis
 //   f0                 : F0 contour
 //   f0_length          : Length of F0 contour
 //   fft_size           : Number of samples of the aperiodicity in one frame.
 //                      : It is given by the equation fft_size / 2 + 1.
+//   frame_period       : Temporal period used for the analysis
+//
 // Output:
 //   aperiodicity  : Aperiodicity estimated by D4C.
 //-----------------------------------------------------------------------------
 void D4C(const double *x, int x_length, int fs,
-    const double *temporal_positions, const double *f0, int f0_length,
+    const double *f0, int f0_length, double frame_period,
     int fft_size, const D4COption *option, double *const *aperiodicity);
 
 //-----------------------------------------------------------------------------

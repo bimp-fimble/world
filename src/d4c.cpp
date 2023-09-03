@@ -256,7 +256,7 @@ static double D4CLoveTrainSub(const double *x, int fs, int x_length,
 // If it was voiced section, the aperiodicity of 0 Hz is set to -60 dB.
 //-----------------------------------------------------------------------------
 static void D4CLoveTrain(const double *x, int fs, int x_length,
-    const double *f0, int f0_length, const double *temporal_positions,
+    const double *f0, int f0_length, double frame_period,
     double *aperiodicity0) {
   double lowest_f0 = 40.0;
   int fft_size = static_cast<int>(pow(2.0, 1.0 +
@@ -274,7 +274,7 @@ static void D4CLoveTrain(const double *x, int fs, int x_length,
       continue;
     }
     aperiodicity0[i] = D4CLoveTrainSub(x, fs, x_length,
-      MyMaxDouble(f0[i], lowest_f0), temporal_positions[i], f0_length,
+      MyMaxDouble(f0[i], lowest_f0), frame_period * i / 1000.0, f0_length,
       fft_size, boundary0, boundary1, boundary2, &forward_real_fft);
   }
 
@@ -335,7 +335,7 @@ static void GetAperiodicity(const double *coarse_frequency_axis,
 }  // namespace
 
 void D4C(const double *x, int x_length, int fs,
-    const double *temporal_positions, const double *f0, int f0_length,
+    const double *f0, int f0_length, double frame_period,
     int fft_size, const D4COption *option, double *const *aperiodicity) {
   randn_reseed();
 
@@ -360,7 +360,7 @@ void D4C(const double *x, int x_length, int fs,
 
   // D4C Love Train (Aperiodicity of 0 Hz is given by the different algorithm)
   double *aperiodicity0 = new double[f0_length];
-  D4CLoveTrain(x, fs, x_length, f0, f0_length, temporal_positions,
+  D4CLoveTrain(x, fs, x_length, f0, f0_length, frame_period,
       aperiodicity0);
 
   double *coarse_aperiodicity = new double[number_of_aperiodicities + 2];
@@ -379,7 +379,7 @@ void D4C(const double *x, int x_length, int fs,
   for (int i = 0; i < f0_length; ++i) {
     if (f0[i] == 0 || aperiodicity0[i] <= option->threshold) continue;
     D4CGeneralBody(x, x_length, fs, MyMaxDouble(world::kFloorF0D4C, f0[i]),
-        fft_size_d4c, temporal_positions[i], number_of_aperiodicities, window,
+        fft_size_d4c, frame_period * i / 1000.0, number_of_aperiodicities, window,
         window_length, &forward_real_fft, &coarse_aperiodicity[1]);
 
     // Linear interpolation to convert the coarse aperiodicity into its

@@ -198,7 +198,7 @@ double GetF0FloorForCheapTrick(int fs, int fft_size) {
 }
 
 void CheapTrick(const double *x, int x_length, int fs,
-    const double *temporal_positions, const double *f0, int f0_length,
+    const double *f0, int f0_length, double frame_period,
     const CheapTrickOption *option, double *const *spectrogram) {
   int fft_size = option->fft_size;
 
@@ -216,7 +216,7 @@ void CheapTrick(const double *x, int x_length, int fs,
   for (int i = 0; i < f0_length; ++i) {
     current_f0 = f0[i] <= f0_floor ? world::kDefaultF0 : f0[i];
     CheapTrickGeneralBody(x, x_length, fs, current_f0, fft_size,
-        temporal_positions[i], option->q1, &forward_real_fft,
+        frame_period * i / 1000.0, option->q1, &forward_real_fft,
         &inverse_real_fft, spectral_envelope);
     for (int j = 0; j <= fft_size / 2; ++j)
       spectrogram[i][j] = spectral_envelope[j];
