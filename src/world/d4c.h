@@ -6,6 +6,7 @@
 #ifndef WORLD_D4C_H_
 #define WORLD_D4C_H_
 
+#include <stddef.h>
 #include "world/macrodefinitions.h"
 
 WORLD_BEGIN_C_DECLS
@@ -33,9 +34,9 @@ typedef struct {
 // Output:
 //   aperiodicity  : Aperiodicity estimated by D4C.
 //-----------------------------------------------------------------------------
-void D4C(const double *x, int x_length, int fs,
-    const double *f0, int f0_length, double frame_period,
-    int fft_size, const D4COption *option, double *const *aperiodicity);
+void D4C(const double *x, size_t x_length, unsigned int fs,
+    const double *f0, size_t f0_length, double frame_period,
+    unsigned int fft_size, const D4COption *option, double *const *aperiodicity);
 
 //-----------------------------------------------------------------------------
 // InitializeD4COption allocates the memory to the struct and sets the

@@ -6,6 +6,7 @@
 #ifndef WORLD_HARVEST_H_
 #define WORLD_HARVEST_H_
 
+#include <stddef.h>
 #include "world/macrodefinitions.h"
 
 WORLD_BEGIN_C_DECLS
@@ -32,7 +33,7 @@ typedef struct {
 //   temporal_positions   : Temporal positions.
 //   f0                   : F0 contour.
 //-----------------------------------------------------------------------------
-void Harvest(const double *x, int x_length, int fs,
+void Harvest(const double *x, size_t x_length, unsigned int fs,
   const HarvestOption *option, double *f0);
 
 //-----------------------------------------------------------------------------
@@ -56,7 +57,7 @@ void InitializeHarvestOption(HarvestOption *option);
 // Output:
 //   The number of samples required to store the results of Harvest().
 //-----------------------------------------------------------------------------
-int GetSamplesForHarvest(int fs, int x_length, double frame_period);
+size_t GetSamplesForHarvest(unsigned int fs, size_t x_length, double frame_period);
 
 WORLD_END_C_DECLS
 

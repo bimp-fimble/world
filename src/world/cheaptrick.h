@@ -6,6 +6,7 @@
 #ifndef WORLD_CHEAPTRICK_H_
 #define WORLD_CHEAPTRICK_H_
 
+#include <stddef.h>
 #include "world/macrodefinitions.h"
 
 WORLD_BEGIN_C_DECLS
@@ -16,7 +17,7 @@ WORLD_BEGIN_C_DECLS
 typedef struct {
   double q1;
   double f0_floor;
-  int fft_size;
+  unsigned int fft_size;
 } CheapTrickOption;
 
 //-----------------------------------------------------------------------------
@@ -35,8 +36,8 @@ typedef struct {
 // Output:
 //   spectrogram        : Spectrogram estimated by CheapTrick.
 //-----------------------------------------------------------------------------
-void CheapTrick(const double *x, int x_length, int fs,
-    const double *f0, int f0_length, double frame_period,
+void CheapTrick(const double *x, size_t x_length, unsigned int fs,
+    const double *f0, size_t f0_length, double frame_period,
     const CheapTrickOption *option, double *const *spectrogram);
 
 //-----------------------------------------------------------------------------
@@ -49,7 +50,7 @@ void CheapTrick(const double *x, int x_length, int fs,
 // Output:
 //   option   : Struct for the optional parameter
 //-----------------------------------------------------------------------------
-void InitializeCheapTrickOption(int fs, CheapTrickOption *option);
+void InitializeCheapTrickOption(unsigned int fs, CheapTrickOption *option);
 
 //-----------------------------------------------------------------------------
 // GetFFTSizeForCheapTrick() calculates the FFT size based on the sampling
@@ -62,7 +63,7 @@ void InitializeCheapTrickOption(int fs, CheapTrickOption *option);
 // Output:
 //   FFT size
 //-----------------------------------------------------------------------------
-int GetFFTSizeForCheapTrick(int fs, const CheapTrickOption *option);
+unsigned int GetFFTSizeForCheapTrick(unsigned int fs, const CheapTrickOption *option);
 
 //-----------------------------------------------------------------------------
 // GetF0FloorForCheapTrick() calculates actual lower f0 limit for CheapTrick
@@ -77,7 +78,7 @@ int GetFFTSizeForCheapTrick(int fs, const CheapTrickOption *option);
 // Output:
 //   Lower f0 limit (Hz)
 //-----------------------------------------------------------------------------
-double GetF0FloorForCheapTrick(int fs, int fft_size);
+double GetF0FloorForCheapTrick(unsigned int fs, unsigned int fft_size);
 
 WORLD_END_C_DECLS
 
