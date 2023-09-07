@@ -59,12 +59,12 @@ void InitializeCheapTrickOption(unsigned int fs, CheapTrickOption *option);
 //
 // Input:
 //   fs : Sampling frequency
-//   option : Option struct containing the lower f0 limit
+//   f0_floor : Lower f0 limit
 //
 // Output:
 //   FFT size
 //-----------------------------------------------------------------------------
-unsigned int GetFFTSizeForCheapTrick(unsigned int fs, const CheapTrickOption *option);
+unsigned int GetFFTSizeForCheapTrick(unsigned int fs, double f0_floor);
 
 //-----------------------------------------------------------------------------
 // GetF0FloorForCheapTrick() calculates actual lower f0 limit for CheapTrick

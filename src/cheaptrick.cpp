@@ -188,9 +188,9 @@ static void CheapTrickGeneralBody(const double *x, size_t x_length, unsigned int
 
 }  // namespace
 
-unsigned int GetFFTSizeForCheapTrick(unsigned int fs, const CheapTrickOption *option) {
+unsigned int GetFFTSizeForCheapTrick(unsigned int fs, double f0_floor) {
   return static_cast<int>(pow(2.0, 1.0 +
-      static_cast<int>(log(3.0 * fs / option->f0_floor + 1) / world::kLog2)));
+      static_cast<int>(log(3.0 * fs / f0_floor + 1) / world::kLog2)));
 }
 
 double GetF0FloorForCheapTrick(unsigned int fs, unsigned int fft_size) {
@@ -233,5 +233,5 @@ void InitializeCheapTrickOption(unsigned int fs, CheapTrickOption *option) {
   // We strongly recommend not to change this value unless you have enough
   // knowledge of the signal processing in CheapTrick.
   option->f0_floor = world::kFloorF0;
-  option->fft_size = GetFFTSizeForCheapTrick(fs, option);
+  option->fft_size = GetFFTSizeForCheapTrick(fs, world::kFloorF0);
 }
