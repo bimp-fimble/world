@@ -31,14 +31,15 @@ typedef struct {
 //   f0                 : F0 contour
 //   f0_length          : Length of F0 contour
 //   frame_period       : Temporal period used for the analysis
-//   option             : Struct to order the parameter for CheapTrick
+//   fft_size           : Size for FFT used by CheapTrick,
+//   			  must be a power of 2 (e.g. 2048, 4096)
 //
 // Output:
 //   spectrogram        : Spectrogram estimated by CheapTrick.
 //-----------------------------------------------------------------------------
 void CheapTrick(const double *x, size_t x_length, unsigned int fs,
     const double *f0, size_t f0_length, double frame_period,
-    const CheapTrickOption *option, double *const *spectrogram);
+    unsigned int fft_size, double *const *spectrogram);
 
 //-----------------------------------------------------------------------------
 // InitializeCheapTrickOption allocates the memory to the struct and sets the

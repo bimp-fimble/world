@@ -336,7 +336,7 @@ static void GetAperiodicity(const double *coarse_frequency_axis,
 
 void D4C(const double *x, size_t x_length, unsigned int fs,
     const double *f0, size_t f0_length, double frame_period,
-    unsigned int fft_size, const D4COption *option, double *const *aperiodicity) {
+    unsigned int fft_size, double threshold, double *const *aperiodicity) {
   randn_reseed();
 
   InitializeAperiodicity(f0_length, fft_size, aperiodicity);
@@ -377,7 +377,7 @@ void D4C(const double *x, size_t x_length, unsigned int fs,
     frequency_axis[i] = static_cast<double>(i) * fs / fft_size;
 
   for (size_t i = 0; i < f0_length; ++i) {
-    if (f0[i] == 0 || aperiodicity0[i] <= option->threshold) continue;
+    if (f0[i] == 0 || aperiodicity0[i] <= threshold) continue;
     D4CGeneralBody(x, x_length, fs, MyMaxDouble(world::kFloorF0D4C, f0[i]),
         fft_size_d4c, frame_period * i / 1000.0, number_of_aperiodicities, window,
         window_length, &forward_real_fft, &coarse_aperiodicity[1]);

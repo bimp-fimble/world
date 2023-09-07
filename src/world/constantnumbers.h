@@ -29,6 +29,9 @@ namespace world {
   // 71 Hz is the limit to maintain the FFT size at 2048.
   // If we use 70 Hz as FLOOR_F0, the FFT size of 4096 is required.
 
+  // for CheapTrick()
+  const double kQ1 = -0.15;
+
   // for D4C()
   const int kHanning = 1;
   const int kBlackman = 2;
